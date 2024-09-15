@@ -15,7 +15,12 @@ def checkpass(service_id, login,passwd):
     if service_id in ser:
         cursor.execute("select Login_id,Password from {} where Service_id={}".format(ser[service_id],service_id))
         s=cursor.fetchall()
+        b=[]
         for a in s:
+            b.append(a[0])
+        for a in s:
+            if login not in b:
+                return "Invalid login id"
             if a[0]==login:
                 ps = a[1].encode('utf-8')# Hash the password
                 salt = bcrypt.gensalt()  # Generate a salt
@@ -25,17 +30,13 @@ def checkpass(service_id, login,passwd):
                     return service_id
                 else:
                     return "Invalid Password."
-            elif login not in range(a[0]):
-                return "Invalid login id"
+            
     else:
         return "Invalid service id Entered!"
 #**Function to regularly update alerts table
 def alert_upd():
-    cursor.execute("select count(*)from alerts")
-    count=cursor.fetchone()[0]
-    if count>20:
-        cursor.execute("delete from alerts")
-        mycon.commit()
+    cursor.execute("delete from alerts")
+    mycon.commit()
 #***Function that will send the alert***
 def send_alert(Service_id,loginID,password):
     ans=checkpass(Service_id,loginID,password)# First checking the credentials
