@@ -60,17 +60,17 @@ def send_alert(Service_id,loginID,password):
 mycon=rome.connect(host="localhost",user="trailblazers",passwd="abc123",database="services")
 cursor=mycon.cursor()
 #adding the tables of all services
-"""cursor.execute("create table list_of_services(Service_id int primary key, Name_Of_Service varchar(100))")
+cursor.execute("create table list_of_services(Service_id int primary key, Name_Of_Service varchar(100))")
 cursor.execute("create table Hospitals(Service_id int default 102,Login_id int primary key,Name_Of_Hospital varchar(100),Password varchar(10), Contact varchar(10),Avaliable_Vehicles int,Address varchar(100))")
 cursor.execute("create table Police_stations(Service_id int default 100,Login_id int primary key,Name_Of_Station varchar(100),Password varchar(10) ,Contact varchar(10) ,Avaliable_Vehicles int,Address varchar(100))")
 cursor.execute("create table Fire_Brigade(Service_id int default 101,Login_id int primary key,Name_Of_Station varchar(100),Password varchar(10), Contact varchar(10), Avaliable_Vehicles int,Address varchar(100))")
 cursor.execute("create table Disaster_Managment(Service_id int default 108,Login_id int primary key,Name_Of_Service varchar(100),Password varchar(10), Contact varchar(10), Avaliable_Vehicles int,Address varchar(100))")
 cursor.execute("create table Emergency_Services(Service_id int default 112,Login_id int primary key,Name_Of_Service varchar(100),Password varchar(10) ,Contact varchar(10) ,Avaliable_Vehicles int,Address varchar(100))")
-#alerts table"""
-"""cursor.execute("create table alerts(alert_id int auto_increment primary key ,Service_id int , service_type varchar(100),alert_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, CONSTRAINT fk_services FOREIGN KEY(Service_id) REFERENCES list_of_services(Service_id ))")
-##adding values in tables"""
+#alerts table
+cursor.execute("create table alerts(alert_id int auto_increment primary key ,Service_id int , service_type varchar(100),alert_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, CONSTRAINT fk_services FOREIGN KEY(Service_id) REFERENCES list_of_services(Service_id ))")
+##adding values in tables
 #1.table of services
-"""values=[(100,'Police'),(101,'Firebrigade'),(102,'Ambulance'),(108,'Disaster Managment'),(112,'Emergency Medical Services')]
+values=[(100,'Police'),(101,'Firebrigade'),(102,'Ambulance'),(108,'Disaster Managment'),(112,'Emergency Medical Services')]
 c=['Service_id','Name_Of_Service']
 add_intable('list_of_services',c,values)
 
@@ -97,7 +97,7 @@ add_intable('Disaster_Managment',col4,dis)
 #6. emergency medical services
 emer=[(7890,'City Emergency Ambulance Service','67rte','9874437654',21,' 258 First Aid Lane, City Center, Chennai, 600003'),(7834,'Quick Response Medical Services','902res','8765452674',12,' 369 Health Plaza, Downtown, Ahmedabad, 380009'),(2119,'RapidCare Emergency Medical Services','89^fes','9987653454',20,'147 Care Corner, Main Street, Jaipur, 302001')]
 col5=['Login_id','Name_Of_Service','Password','Contact','Avaliable_Vehicles','Address']
-add_intable('Emergency_Services',col5,emer)"""
+add_intable('Emergency_Services',col5,emer)
 
 ##MAin Program
 #values entered by user
