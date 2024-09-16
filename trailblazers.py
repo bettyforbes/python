@@ -156,7 +156,7 @@ elif i==3:
     feedback()
 else:
     print("invalid option")
-
+mycon.close()
 
 
 
