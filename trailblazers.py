@@ -1,6 +1,6 @@
 import mysql.connector as rome
 import bcrypt
-#Function to add values in tables
+#Function for feedback
 def feedback():
     id=input("enter email id")
     feed=input("enter feedback")
@@ -8,7 +8,7 @@ def feedback():
     val=[(id,feed)]
     add_intable('feedback',lis,val)
     print("thanks for the feedback")
-    
+#Function to add values in tables
 def add_intable(table,column,data):
     #table = srting; column= list ; data=list with tuple entries
     costring=", ".join(column)
