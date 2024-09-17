@@ -1,13 +1,11 @@
 import mysql.connector as rome
 import bcrypt
 #Function for feedback
-def feedback():
-    id=input("enter email id")
-    feed=input("enter feedback")
+def feedback(id,feed):
     lis=['email','feedback']
     val=[(id,feed)]
     add_intable('feedback',lis,val)
-    print("thanks for the feedback")
+    return "thanks for the feedback"
 #Function to add values in tables
 def add_intable(table,column,data):
     #table = srting; column= list ; data=list with tuple entries
@@ -46,14 +44,10 @@ def alert_upd():
     cursor.execute("delete from alerts")
     mycon.commit()
 #***Function that will send the alert***
-def send_alert():
-    #values entered by user
-    Service_id=int(input("enter service id"))
-    loginID=input("enter login id(Email)")
-    password=input("enter password")
+def send_alert(Service_id,loginID,password):
     ans=checkpass(Service_id,loginID,password)# First checking the credentials
     if type(ans)==str: # If any invalid thing is entered
-        print(ans)
+        return ans
     else: # valid thing entered
         cursor.execute("select Name_Of_Service from list_of_services where Service_id={}".format(ans))
         name=str(cursor.fetchone()[0])
@@ -65,15 +59,10 @@ def send_alert():
         time = q[1]  # Access the datetime object
         time_str = time.strftime('%Y-%m-%d %H:%M:%S')  # Convert to string
         #Final Message 
-        print("CLEAR THE TRAFFIC!! EMERGENCY VEHICLE INCOMING FROM {} AlERT ID={} RECIEVED AT '{}'".format(name,q[0],time_str))
+        return "CLEAR THE TRAFFIC!! EMERGENCY VEHICLE INCOMING FROM {} AlERT ID={} RECIEVED AT '{}'".format(name,q[0],time_str)
     alert_upd() # to clear alerts
 ##Function to make database
-def database_setup():
-    ask=input("create database?(Y/N)")
-    if ask=='N':
-        print("---------")
-    elif ask=='Y'.upper():
-        check=input("enter admin password") #checking admin password
+def database_setup(check):
         actual_pass='ClearwaycodersAIML'.encode('utf-8')
         salt = bcrypt.gensalt()
         hashed_pass = bcrypt.hashpw(actual_pass, salt)
@@ -117,23 +106,14 @@ def database_setup():
             emer=[('78em90@gmail.com','City Emergency Ambulance Service','67rte','9874437654',21,' 258 First Aid Lane, City Center, Chennai, 600003'),('none7834@gmail.com','Quick Response Medical Services','902res','8765452674',12,' 369 Health Plaza, Downtown, Ahmedabad, 380009'),('fastserv2119@gamil.com','RapidCare Emergency Medical Services','89^fes','9987653454',20,'147 Care Corner, Main Street, Jaipur, 302001')]
             col5=['Login_id','Name','Password','Contact','Avaliable_Vehicles','Address']
             add_intable('Emergency_Services',col5,emer)
-            print("Database created")
-        else:
-            print("Invalid Password.")
+          return "Database created"
 
 ## FUNCTION FOR NEW USER TO LOGIN 
-def new_entry():
-    serv=input("enter department type")
-    name=input("enter department name")
-    cont=int(input("enter contact no"))
-    vehicle=int(input("enter no of vehicles"))
-    email=input("enter email")
-    passwd=input("enter password")
-    add=input("enter address")
+def new_entry(department_type, name, contact, vehicle, email, passwd, address):
     column=['Login_id','Name','Password','Contact','Avaliable_Vehicles','Address']
-    val=[(email,name,passwd,cont,vehicle,add)]
-    add_intable(serv,column,val)
-    print("you are registered")
+    val=[(email,name,passwd,contact,vehicle,address)]
+    add_intable(department_type,column,val)
+    return "you are registered"
 
 ##AFTER FUNCTIONS
 
@@ -143,19 +123,6 @@ cursor=mycon.cursor()
 
 ##MAin Program
 
-database_setup() #If you want to create the database first(type N if already created)
-
-##Options
-print("enter 1 for registering","enter 2 for login","enter 3 for feedback",sep='\n')
-i=int(input("enter option"))
-if i==1:
-    new_entry() #adding new row in a table
-elif i==2:  
-    send_alert() #Values going to Alerts table
-elif i==3:
-    feedback()
-else:
-    print("invalid option")
 mycon.close()
 
 
