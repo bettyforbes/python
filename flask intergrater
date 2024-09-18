@@ -1,0 +1,66 @@
+from flask import Flask,session, request,redirect,url_for, abort, flash,render_template
+import trailblazers
+
+app = Flask(__name__)
+app.secret_key = 'ClearwaycodersAIML'
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        department_type = request.form.get('departmentType')
+        name = request.form.get('departmentName')
+        contact = int(request.form.get('ContactNumber'))
+        vehicle = int(request.form.get('numberOfVehicles'))
+        email = request.form.get('email')
+        passwd = request.form.get('password')
+        address = request.form.get('address')
+        
+        # Call the new_entry function
+        result = trailblazers.new_entry(department_type, name, contact, vehicle, email, passwd, address)
+        flash(result)
+        return redirect(url_for('home'))
+    
+    return render_template('register.html')
+
+
+@app.route('/dashboard')
+def dashboard():
+    if 'username' in session:
+        return f"Hello {session['username']}! Welcome to the dashboard."
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    session.pop('admin', None)
+    return redirect(url_for('login'))
+
+
+
+@app.route('/')
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/index')
+def index():
+    return render_template('index.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html')
+
+@app.route('/terms')
+def terms():
+    return render_template('terms.html')
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
